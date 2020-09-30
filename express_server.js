@@ -36,6 +36,11 @@ const users = {
     password: "dishwasher-funk"
   }
 }
+// GET /login endpoint, which returns the template login
+app.get('/login', (req, res) => { 
+  const templateVars = { user: users[req.cookies["user_id"]]};
+  res.render('login', templateVars);
+});
 // Add a POST route to handle /login
 app.post('/login', (req, res) => {
   const email = req.body.email;
@@ -83,7 +88,7 @@ app.post('/register', (req, res) => {
 
 app.post('/logout', (req, res) => {
   res.clearCookie("user_id");
-  res.redirect('/urls');
+  res.redirect('/login');
 });
 
 app.get("/urls", (req, res) => {
