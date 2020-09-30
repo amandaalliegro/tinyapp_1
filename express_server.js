@@ -23,39 +23,71 @@ const generateRandomString = () => {
 app.get("/urls.json", (req, res) => {
   res.json(urlDatabase);
 });
-
+// Users database
+const users = { 
+  "userRandomID": {
+    id: "userRandomID", 
+    email: "user@example.com", 
+    password: "purple-monkey-dinosaur"
+  },
+ "user2RandomID": {
+    id: "user2RandomID", 
+    email: "user2@example.com", 
+    password: "dishwasher-funk"
+  }
+}
+// Add a POST route to handle /login
 app.post('/login', (req, res) => {
-  if (req.body.username !== "") {
-    res.cookie("username", req.body.username);
+  if (req.body.user_id !== "") {
+    res.cookie("user_id", req.body.user_id);
   }
   res.redirect('/urls');
 });
 
 // GET /register endpoint, which returns the template register
-app.get('register', (req, res) => { 
-  const templateVars = { username: req.cookies["username"] };
+app.get('/register', (req, res) => { 
+  const templateVars = { user: users[req.cookies["user_id"]]};
   res.render('register', templateVars);
+});
+// POST /register endpoint, which returns the template register
+app.post('/register', (req, res) => {
+  const id = generateRandomString();
+  const { email, password } = req.body;
+  users[id] = { id, email, password };
+  res.cookie("user_id", id);
+  res.redirect('/urls');
 });
 
 app.post('/logout', (req, res) => {
-  res.clearCookie("username");
+  res.clearCookie("user_id");
   res.redirect('/urls');
 });
 
 app.get("/urls", (req, res) => {
-  const templateVars = { urls: urlDatabase, username: req.cookies["username"] };
+  const templateVars = { urls: urlDatabase, user: users[req.cookies["user_id"]] };
   res.render("urls_index", templateVars);
 });
 
 app.get("/urls/new", (req, res) => {
-  const templateVars = { urls: urlDatabase, username: req.cookies["username"] };
+  const templateVars = { urls: urlDatabase, user: users[req.cookies["user_id"]] };
   res.render("urls_new", templateVars);
 });
 
 app.get("/urls/:shortURL", (req, res) => {
-  const templateVars = { shortURL: req.params.shortURL, longURL: urlDatabase[req.params.shortURL], username: req.cookies["username"] };
+  const templateVars = { shortURL: req.params.shortURL, longURL: urlDatabase[req.params.shortURL], user: users[req.cookies["user_id"]] };
   res.render("urls_show", templateVars);
   
+});
+// Add a POST route that updates a URL resource;
+app.post('/urls/:shortURL', (req, res) => { 
+  const shortURL = req.params.shortURL;
+  const longURl = req.body.longURL;
+  if (longURl.match(/^(https:\/\/|http:\/\/)/)) {
+    urlDatabase[shortURL] = longURl;
+  } else {
+    urlDatabase[shortURL] = `http://www.${longURl}`;
+  }
+  res.redirect(`/urls/${shortURL}`);
 });
 
 app.get("/u/:shortURL", (req, res) => {

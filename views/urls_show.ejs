@@ -24,6 +24,15 @@
             <button type="submit" class="btn btn-outline-primary">Update URL</button>
       </form>
       </div>
+        <h2>Edit</h2>
+        <form class="form-inline justify-content-center action="/urls/<%= shortURL %>" method="POST">
+          <label for="longURL">new URL:
+          <input class="form-control" type="text" name="longURL" value= "<%= longURL %>"/>
+
+          </label>
+            <button type="submit" class="btn btn-outline-primary">Update URL</button>
+      </form>
+      </div>
   </div>
   <!-- Bootstrap JS -->
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
