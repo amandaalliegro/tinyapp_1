@@ -45,19 +45,17 @@ app.get('/login', (req, res) => {
 app.post('/login', (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
-
-  if (email === "" || password === '') {    
+  if (!email || !password) {
       return res.status(400).send("<h1>400 Bad Request</h1><p>Please fill up all fields.</p>");
-      } else {
+  } else {
     for (const key in users) {
-      if (users[key].email === email) {
+      if (users[key].email === email && users[key].password === password) {
         res.cookie("user_id", key);
-        return res.redirect('/urls');
-      } else {
-        return res.status(400).send("<h1> email not registered</h>")
+        res.redirect('/urls');
       }
     }
-  }	  
+    res.status(403).send("<h1>Email and Password correct</h>");
+  }
 });
 
 
@@ -81,7 +79,7 @@ app.post('/register', (req, res) => {
       return res.status(400).send("<h1>400 Bad Request </h1><p>User is already registered. Please, make sure you are registering a new user.</p>");
     }   
   }
-  users[id] = { id, email, password };
+  users[id] = { id, email, password };  
   res.cookie("user_id", id);
   return res.redirect('/urls');
 })
@@ -125,9 +123,7 @@ app.get("/u/:shortURL", (req, res) => {
 
 app.post("/urls", (req, res) => {
   const shortURL = generateRandomString();
-  res.send("Ok");         	  urlDatabase[shortURL] = req.body.longURL;
-  console.log(req.body);  // Log the POST request body to the console
-  res.send("Ok");         // Respond with 'Ok' (we will replace this)
+  urlDatabase[shortURL] = req.body.longURL;
   res.redirect(`/urls/${shortURL}`);
 });
 
