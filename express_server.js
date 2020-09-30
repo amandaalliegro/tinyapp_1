@@ -30,6 +30,13 @@ app.post('/login', (req, res) => {
   }
   res.redirect('/urls');
 });
+
+// GET /register endpoint, which returns the template register
+app.get('register', (req, res) => { 
+  const templateVars = { username: req.cookies["username"] };
+  res.render('register', templateVars);
+});
+
 app.post('/logout', (req, res) => {
   res.clearCookie("username");
   res.redirect('/urls');
