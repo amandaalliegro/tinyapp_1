@@ -38,11 +38,23 @@ const users = {
 }
 // Add a POST route to handle /login
 app.post('/login', (req, res) => {
-  if (req.body.user_id !== "") {
-    res.cookie("user_id", req.body.user_id);
-  }
-  res.redirect('/urls');
+  const email = req.body.email;
+  const password = req.body.password;
+
+  if (email === "" || password === '') {    
+      return res.status(400).send("<h1>400 Bad Request</h1><p>Please fill up all fields.</p>");
+      } else {
+    for (const key in users) {
+      if (users[key].email === email) {
+        res.cookie("user_id", key);
+        return res.redirect('/urls');
+      } else {
+        return res.status(400).send("<h1> email not registered</h>")
+      }
+    }
+  }	  
 });
+
 
 // GET /register endpoint, which returns the template register
 app.get('/register', (req, res) => { 
@@ -53,10 +65,21 @@ app.get('/register', (req, res) => {
 app.post('/register', (req, res) => {
   const id = generateRandomString();
   const { email, password } = req.body;
+  
+  if (email === "" || password === '') {    
+    return res.status(400).send("<h1>400 Bad Request</h1><p>Please fill up all fields.</p>");
+    } 
+  for (const key in users) {
+    console.log("user emails", users[key].email)
+    console.log("email from body", email)
+    if (users[key].email === email) {
+      return res.status(400).send("<h1>400 Bad Request </h1><p>User is already registered. Please, make sure you are registering a new user.</p>");
+    }   
+  }
   users[id] = { id, email, password };
   res.cookie("user_id", id);
-  res.redirect('/urls');
-});
+  return res.redirect('/urls');
+})
 
 app.post('/logout', (req, res) => {
   res.clearCookie("user_id");
