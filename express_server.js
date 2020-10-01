@@ -22,8 +22,7 @@ app.use(cookieSession({
 const { getUserByEmail, generateRandomString, urlsForUser } = require('./helpers');
 
 // access to databases
-const users = require('./databases');
-const urlDatabase = require('./databases');
+const {urlDatabase, users } = require('./databases');
 
 //This tells the Express app to use EJS as its templating engine.
 app.set("view engine", "ejs");
@@ -38,8 +37,10 @@ app.get("/urls.json", (req, res) => {
 
 // GET -> URLs, pass the URL data to our template.
 app.get('/urls', (req, res) => {
+  const user = users[req.session.user_id];
   const templateVars = {
-    urls: urlsForUser(req.session.user_id),
+  
+    urls: urlsForUser(user, urlDatabase),
     user: users[req.session.user_id]
   };
   res.render('urls_index', templateVars);
