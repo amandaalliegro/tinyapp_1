@@ -9,13 +9,34 @@ app.use(cookieParser());
 
 app.set("view engine", "ejs");
 
+app.get("/urls.json", (req, res) => {
+  res.json(urlDatabase);
+});
+
+// DATABASES
+
+// Users database, global object called users which will be used to store and access the users in the app
+const users = { 
+  "userRandomID": {
+    id: "userRandomID", 
+    email: "user@example.com", 
+    password: "purple-monkey-dinosaur"
+  },
+ "user2RandomID": {
+    id: "user2RandomID", 
+    email: "user2@example.com", 
+    password: "dishwasher-funk"
+  }
+}
 
 const urlDatabase = {
   b6UTxQ: { longURL: "https://www.tsn.ca", userID: "aJ48lW" },
   i3BoGr: { longURL: "https://www.google.ca", userID: "aJ48lW" }
 };
 
+
 // HELPER FUNCTIONS:
+
 //returns a string of 6 random alphanumeric characters
 const generateRandomString = () => { 
   return Math.random().toString(36).substring(2, 8);
@@ -29,8 +50,9 @@ const urlsForUser = (userID) => {
     }
    }
    return urls;
-}   
-const getUserByEmail = (email, database) => { // helper function
+};
+
+const getUserByEmail = (email, database) => {
   for (const key in database) {
     if (database[key].email === email) {
       return database[key];
@@ -39,22 +61,8 @@ const getUserByEmail = (email, database) => { // helper function
   return undefined;
 };
 
-app.get("/urls.json", (req, res) => {
-  res.json(urlDatabase);
-});
-// Users database
-const users = { //global object called users which will be used to store and access the users in the app
-  "userRandomID": {
-    id: "userRandomID", 
-    email: "user@example.com", 
-    password: "purple-monkey-dinosaur"
-  },
- "user2RandomID": {
-    id: "user2RandomID", 
-    email: "user2@example.com", 
-    password: "dishwasher-funk"
-  }
-}
+// ALL GET ROUTES:
+
 app.get("/hello", (req, res) => {
   res.send("<html><body>Hello <b>World</b></body></html>\n");	 
   urlDatabase[shortURL] = {
@@ -64,13 +72,86 @@ app.get("/hello", (req, res) => {
   res.redirect(`/urls/${shortURL}`); 
 });
 
+// GET -> URLs
+app.get("/urls", (req, res) => {
+  const templateVars = {
+    urls: urlsForUser(req.cookies['user_id']),
+    user: users[req.cookies['user_id']]
+  };
+  res.render('urls_index', templateVars);
+});
 
-// GET /login endpoint, which returns the template login
+// GET -> new
+app.get("/urls/new", (req, res) => {
+  const templateVars = { urls: urlDatabase, user: users[req.cookies["user_id"]] };
+  res.render("urls_new", templateVars);
+});
+
+// GET -> shortURL
+app.get("/urls/:shortURL", (req, res) => { 
+  let templateVars = {
+    shortURL: req.params.shortURL,
+    longURL: urlDatabase[req.params.shortURL].longURL,
+    user: users[req.cookies['user_id']] };
+  
+  if (urlDatabase[req.params.shortURL].userID !== req.cookies['user_id']) {
+    res.send("You are not authorized");
+    return;
+  } else  {
+  res.render("urls_show", templateVars);
+  }
+});
+
+// GET -> short URL
+app.get("/u/:shortURL", (req, res) => {
+  const longURL = urlDatabase[req.params.shortURL];
+  res.redirect(longURL);
+});
+
+// GET -> login endpoint, which returns the template login
 app.get('/login', (req, res) => { 
   const templateVars = { user: users[req.cookies["user_id"]]};
   res.render('login', templateVars);
 });
-// Add a POST route to handle /login
+
+// GET -> register endpoint, which returns the template register
+app.get('/register', (req, res) => { 
+  const templateVars = { user: users[req.cookies["user_id"]]};
+  res.render('register', templateVars);
+});
+
+// ALL POST ROUTES:
+
+// POST-> URLS
+app.post("/urls", (req, res) => {
+  const shortURL = generateRandomString();
+  
+  urlDatabase[shortURL] = {
+    longURL: req.body.longURL,
+    userID: req.cookies['user_id']
+  };
+  res.redirect(`/urls/${shortURL}`);
+});
+
+// POST -> short URL 
+app.post('/urls/:shortURL', (req, res) => { 
+  const shortURL = req.params.shortURL;
+  const longURl = req.body.longURL;
+  if (longURl.match(/^(https:\/\/|http:\/\/)/)) {
+    urlDatabase[shortURL] = longURl;
+  } else {
+    urlDatabase[shortURL] = `http://www.${longURl}`;
+  }
+  res.redirect(`/urls/${shortURL}`);
+});
+
+// POST -> removes a URL resource: POST /urls/:shortURL/delete
+app.post('/urls/:shortURL/delete', (req, res) => {
+  delete urlDatabase[req.params.shortURL];
+  res.redirect("/urls");
+});
+
+// POST -> handle login 
 app.post('/login', (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
@@ -87,13 +168,7 @@ app.post('/login', (req, res) => {
   }
 });
 
-
-// GET /register endpoint, which returns the template register
-app.get('/register', (req, res) => { 
-  const templateVars = { user: users[req.cookies["user_id"]]};
-  res.render('register', templateVars);
-});
-// POST /register endpoint, which returns the template register
+// POST -> register endpoint, which returns the template register
 app.post('/register', (req, res) => {
   const id = generateRandomString();
   const { email, password } = req.body;
@@ -114,65 +189,11 @@ app.post('/register', (req, res) => {
   return res.redirect('/urls');
 });
 
+// POST -> logout
 app.post('/logout', (req, res) => {
   res.clearCookie("user_id");
   res.redirect('/login');
 });
-
-app.get("/urls", (req, res) => {
-  const templateVars = {
-    urls: urlsForUser(req.cookies['user_id']),
-    user: users[req.cookies['user_id']]
-  };
-  res.render('urls_index', templateVars);
-});
-
-app.get("/urls/new", (req, res) => {
-  const templateVars = { urls: urlDatabase, user: users[req.cookies["user_id"]] };
-  res.render("urls_new", templateVars);
-});
-// Add GET route to shortURL
-app.get("/urls/:shortURL", (req, res) => { 
-  if (urlDatabase[req.params.shortURL].userID !== req.cookies['user_id']) {
-    res.send("You are not authorized");
-    return;
-  }
-  let templateVars = {
-    shortURL: req.params.shortURL,
-    longURL: urlDatabase[req.params.shortURL].longURL,
-    user: users[req.cookies['user_id']] };
-  res.render("urls_show", templateVars);
-});
-
-// Add a POST route that updates a URL resource;
-app.post('/urls/:shortURL', (req, res) => { 
-  const shortURL = req.params.shortURL;
-  const longURl = req.body.longURL;
-  if (longURl.match(/^(https:\/\/|http:\/\/)/)) {
-    urlDatabase[shortURL] = longURl;
-  } else {
-    urlDatabase[shortURL] = `http://www.${longURl}`;
-  }
-  res.redirect(`/urls/${shortURL}`);
-});
-
-app.get("/u/:shortURL", (req, res) => {
-  const longURL = urlDatabase[req.params.shortURL];
-  res.redirect(longURL);
-});
-
-app.post("/urls", (req, res) => {
-  const shortURL = generateRandomString();
-  
-  urlDatabase[shortURL] = {
-    longURL: req.body.longURL,
-    userID: req.cookies['user_id']
-  };
-  res.redirect(`/urls/${shortURL}`);
-});
-
-
-
 
 
 
