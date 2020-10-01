@@ -9,9 +9,10 @@ app.use(cookieParser());
 
 app.set("view engine", "ejs");
 
+
 const urlDatabase = {
-  "b2xVn2": "http://www.lighthouselabs.ca",
-  "9sm5xK": "http://www.google.com"
+  b6UTxQ: { longURL: "https://www.tsn.ca", userID: "aJ48lW" },
+  i3BoGr: { longURL: "https://www.google.ca", userID: "aJ48lW" }
 };
 
 // HELPER FUNCTIONS:
@@ -20,11 +21,29 @@ const generateRandomString = () => {
   return Math.random().toString(36).substring(2, 8);
 };
 
+const urlsForUser = (userID) => {
+  const urls = {};
+  for (const shortURL in urlDatabase) {
+    if (userID === urlDatabase[shortURL].userID) {
+      urls[shortURL] = urlDatabase[shortURL];
+    }
+   }
+   return urls;
+}   
+const getUserByEmail = (email, database) => { // helper function
+  for (const key in database) {
+    if (database[key].email === email) {
+      return database[key];
+    }
+  }
+  return undefined;
+};
+
 app.get("/urls.json", (req, res) => {
   res.json(urlDatabase);
 });
 // Users database
-const users = { 
+const users = { //global object called users which will be used to store and access the users in the app
   "userRandomID": {
     id: "userRandomID", 
     email: "user@example.com", 
@@ -36,6 +55,16 @@ const users = {
     password: "dishwasher-funk"
   }
 }
+app.get("/hello", (req, res) => {
+  res.send("<html><body>Hello <b>World</b></body></html>\n");	 
+  urlDatabase[shortURL] = {
+    longURL: req.body.longURL,
+    userID: req.cookies['user_id']
+  }
+  res.redirect(`/urls/${shortURL}`); 
+});
+
+
 // GET /login endpoint, which returns the template login
 app.get('/login', (req, res) => { 
   const templateVars = { user: users[req.cookies["user_id"]]};
@@ -69,20 +98,21 @@ app.post('/register', (req, res) => {
   const id = generateRandomString();
   const { email, password } = req.body;
   
-  if (email === "" || password === '') {    
+  if (email === "" || password === '') {
     return res.status(400).send("<h1>400 Bad Request</h1><p>Please fill up all fields.</p>");
-    } 
-  for (const key in users) {
-    console.log("user emails", users[key].email)
-    console.log("email from body", email)
-    if (users[key].email === email) {
-      return res.status(400).send("<h1>400 Bad Request </h1><p>User is already registered. Please, make sure you are registering a new user.</p>");
-    }   
   }
-  users[id] = { id, email, password };  
-  res.cookie("user_id", id);
+    if (getUserByEmail(email, users)) {
+      return res.status(400).send("<h1>400 Bad Request</h1><p>User is already registered. Please, make sure you are registering a new user.</p>");
+    }
+  users[id] = {
+    id,
+    email,
+    password
+  };
+  console.log(users)
+  req.cookies['user_id'] = id;
   return res.redirect('/urls');
-})
+});
 
 app.post('/logout', (req, res) => {
   res.clearCookie("user_id");
@@ -90,20 +120,30 @@ app.post('/logout', (req, res) => {
 });
 
 app.get("/urls", (req, res) => {
-  const templateVars = { urls: urlDatabase, user: users[req.cookies["user_id"]] };
-  res.render("urls_index", templateVars);
+  const templateVars = {
+    urls: urlsForUser(req.cookies['user_id']),
+    user: users[req.cookies['user_id']]
+  };
+  res.render('urls_index', templateVars);
 });
 
 app.get("/urls/new", (req, res) => {
   const templateVars = { urls: urlDatabase, user: users[req.cookies["user_id"]] };
   res.render("urls_new", templateVars);
 });
-
-app.get("/urls/:shortURL", (req, res) => {
-  const templateVars = { shortURL: req.params.shortURL, longURL: urlDatabase[req.params.shortURL], user: users[req.cookies["user_id"]] };
+// Add GET route to shortURL
+app.get("/urls/:shortURL", (req, res) => { 
+  if (urlDatabase[req.params.shortURL].userID !== req.cookies['user_id']) {
+    res.send("You are not authorized");
+    return;
+  }
+  let templateVars = {
+    shortURL: req.params.shortURL,
+    longURL: urlDatabase[req.params.shortURL].longURL,
+    user: users[req.cookies['user_id']] };
   res.render("urls_show", templateVars);
-  
 });
+
 // Add a POST route that updates a URL resource;
 app.post('/urls/:shortURL', (req, res) => { 
   const shortURL = req.params.shortURL;
@@ -123,9 +163,14 @@ app.get("/u/:shortURL", (req, res) => {
 
 app.post("/urls", (req, res) => {
   const shortURL = generateRandomString();
-  urlDatabase[shortURL] = req.body.longURL;
+  
+  urlDatabase[shortURL] = {
+    longURL: req.body.longURL,
+    userID: req.cookies['user_id']
+  };
   res.redirect(`/urls/${shortURL}`);
 });
+
 
 
 
