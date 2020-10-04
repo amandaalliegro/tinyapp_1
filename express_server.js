@@ -36,14 +36,24 @@ app.get("/urls.json", (req, res) => {
 // ---- >> ALL GET ROUTES << ----
 
 // GET -> URLs, pass the URL data to our template.
-app.get('/urls', (req, res) => {
+app.get(['/urls', '/'], (req, res) => {
   const user = users[req.session.user_id];
-  const templateVars = {
+  let templateVars;
+
+  if (typeof user !== 'undefined') { 
+    templateVars = {
   
-    urls: urlsForUser(user, urlDatabase),
-    user: users[req.session.user_id]
-  };
-  res.render('urls_index', templateVars);
+      urls: urlsForUser(user, urlDatabase),
+      user: users[req.session.user_id]
+    };
+  }else{
+    templateVars = {
+      user: undefined
+    };
+  }  
+
+  res.render('urls_index', templateVars)
+  
 });
 
 // GET -> new
@@ -68,7 +78,7 @@ app.get("/urls/:shortURL", (req, res) => {
 
 // GET -> short URL
 app.get('/u/:shortURL', (req, res) => {
-  const longURL = urlDatabase[req.params.shortURL];
+  const longURL = urlDatabase[req.params.shortURL].longURL;
   res.redirect(longURL);
 });
 
@@ -90,10 +100,19 @@ app.get('/register', (req, res) => {
 // POST-> URLS
 app.post("/urls", (req, res) => {
   const shortURL = generateRandomString();
-  urlDatabase[shortURL] = {
-    longURL: req.body.longURL,
-    userID: req.session.user_id
-  };
+
+  if (req.body.longURL.match(/^(https:\/\/|http:\/\/)/)) {
+    urlDatabase[shortURL] = {
+      longURL: req.body.longURL,
+      userID: req.session.user_id
+    };
+  } else {
+    urlDatabase[shortURL] = {
+      longURL:`http://www.${req.body.longURL}`,
+      userID: req.session.user_id
+    }
+  }
+
   res.redirect(`/urls/${shortURL}`);
 });
 
@@ -103,6 +122,7 @@ app.post('/urls/:shortURL', (req, res) => {
   const longURL = req.body.longURL;
   const userID = req.session.user_id;
   //
+
   if (longURL.match(/^(https:\/\/|http:\/\/)/)) {
     urlDatabase[shortURL] = {
       longURL,
