@@ -64,6 +64,9 @@ app.get("/urls/new", (req, res) => {
 
 // GET -> shortURL
 app.get("/urls/:shortURL", (req, res) => { 
+  if(!urlDatabase[req.params.shortURL]) {
+    res.status(400).send("<h1>400 Bad Request</h1><p>The link you are trying to access is not available.")
+  }
   if (urlDatabase[req.params.shortURL].userID !== req.session.user_id) {
     res.send("You are not authorized");
     return;
@@ -79,7 +82,11 @@ app.get("/urls/:shortURL", (req, res) => {
 // GET -> short URL
 app.get('/u/:shortURL', (req, res) => {
   const longURL = urlDatabase[req.params.shortURL].longURL;
-  res.redirect(longURL);
+  if (longURL) {
+    return res.redirect(longURL);
+  } else {
+    res.status(400).send("<h1>400 Bad Request</h1><p>The link you are trying to access is not available.")
+  }
 });
 
 // GET -> login endpoint, which returns the template login
@@ -158,6 +165,10 @@ app.post('/login', (req, res) => {
     return res.status(400).send("<h1>400 Bad Request</h1><p>Please fill up all fields.</p>");
   } else {
     const user = getUserByEmail(email, users);
+    // If the user doesnt exist, return an error
+    if(!user) {
+      res.status(403).send("<h1>User doesnt exist, please sign up</h>");
+    }
     // compare password with hash password value
     const hashss = bcrypt.compareSync(password, user.password);
     // user redirected to urls page and has access to create new URL and their own URL library 
