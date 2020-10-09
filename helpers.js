@@ -1,19 +1,7 @@
-const express = require("express");
-const app = express();
-const bodyParser = require("body-parser");
-app.use(bodyParser.urlencoded({extended: true}))
-const bcrypt = require('bcrypt');
-const cookieSession = require('cookie-session');
-app.use(cookieSession({
-  name: 'session',
-  keys: ['abacaxi', 'melancia'],  
-}));
-
-
 // HELPER FUNCTIONS:
 
 // returns a string of 6 random alphanumeric characters;
-const generateRandomString = () => { 
+const generateRandomString = () => {
   return Math.random().toString(36).substring(2, 8);
 };
 
@@ -25,8 +13,8 @@ const urlsForUser = (user, urlDatabase) => {
     if (user.id === urlDatabase[shortURL].userID) {
       urls[shortURL] = urlDatabase[shortURL];
     }
-   }
-   return urls;
+  }
+  return urls;
 };
 
 const getUserByEmail = (email, database) => {
@@ -39,4 +27,4 @@ const getUserByEmail = (email, database) => {
 };
 
 
-module.exports = { generateRandomString, urlsForUser, getUserByEmail}
+module.exports = { generateRandomString, urlsForUser, getUserByEmail};

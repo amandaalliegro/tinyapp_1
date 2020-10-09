@@ -15,7 +15,7 @@ const bcrypt = require('bcrypt');
 const cookieSession = require('cookie-session');
 app.use(cookieSession({
   name: 'session',
-  keys: ['abacaxi', 'melancia'],  
+  keys: ['abacaxi', 'melancia'],
 }));
 
 // access to helper functions
@@ -40,19 +40,19 @@ app.get(['/urls', '/'], (req, res) => {
   const user = users[req.session.user_id];
   let templateVars;
 
-  if (typeof user !== 'undefined') { 
+  if (typeof user !== 'undefined') {
     templateVars = {
   
       urls: urlsForUser(user, urlDatabase),
       user: users[req.session.user_id]
     };
-  }else{
+  } else {
     templateVars = {
       user: undefined
     };
-  }  
+  }
 
-  res.render('urls_index', templateVars)
+  res.render('urls_index', templateVars);
   
 });
 
@@ -63,9 +63,9 @@ app.get("/urls/new", (req, res) => {
 });
 
 // GET -> shortURL
-app.get("/urls/:shortURL", (req, res) => { 
-  if(!urlDatabase[req.params.shortURL]) {
-    res.status(400).send("<h1>400 Bad Request</h1><p>The link you are trying to access is not available.")
+app.get("/urls/:shortURL", (req, res) => {
+  if (!urlDatabase[req.params.shortURL]) {
+    res.status(400).send("<h1>400 Bad Request</h1><p>The link you are trying to access is not available.");
   }
   if (urlDatabase[req.params.shortURL].userID !== req.session.user_id) {
     res.send("You are not authorized");
@@ -85,18 +85,18 @@ app.get('/u/:shortURL', (req, res) => {
   if (longURL) {
     return res.redirect(longURL);
   } else {
-    res.status(400).send("<h1>400 Bad Request</h1><p>The link you are trying to access is not available.")
+    res.status(400).send("<h1>400 Bad Request</h1><p>The link you are trying to access is not available.");
   }
 });
 
 // GET -> login endpoint, which returns the template login
-app.get('/login', (req, res) => { 
+app.get('/login', (req, res) => {
   const templateVars = { user: users[req.session.user_id]};
   res.render('login', templateVars);
 });
 
 // GET -> register endpoint, which returns the template register
-app.get('/register', (req, res) => { 
+app.get('/register', (req, res) => {
   const templateVars = { user: users[req.session.user_id]};
   res.render('register', templateVars);
 });
@@ -117,14 +117,14 @@ app.post("/urls", (req, res) => {
     urlDatabase[shortURL] = {
       longURL:`http://www.${req.body.longURL}`,
       userID: req.session.user_id
-    }
+    };
   }
 
   res.redirect(`/urls/${shortURL}`);
 });
 
-// POST -> short URL 
-app.post('/urls/:shortURL', (req, res) => { 
+// POST -> short URL
+app.post('/urls/:shortURL', (req, res) => {
   const shortURL = req.params.shortURL;
   const longURL = req.body.longURL;
   const userID = req.session.user_id;
@@ -139,7 +139,7 @@ app.post('/urls/:shortURL', (req, res) => {
     urlDatabase[shortURL] = {
       longURL :`http://www.${longURL}`,
       userID
-    }
+    };
   }
   res.redirect(`/urls/${shortURL}`);
 });
@@ -151,12 +151,12 @@ app.post('/urls/:shortURL/delete', (req, res) => {
   const user = users[userID];
   const urls = urlsForUser(user, urlDatabase);
   if (Object.keys(urls).includes(shortURL)) {
-  delete urlDatabase[shortURL];
+    delete urlDatabase[shortURL];
   }
   res.redirect("/urls");
 });
 
-// POST -> handle login 
+// POST -> handle login
 app.post('/login', (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
@@ -166,14 +166,14 @@ app.post('/login', (req, res) => {
   } else {
     const user = getUserByEmail(email, users);
     // If the user doesnt exist, return an error
-    if(!user) {
+    if (!user) {
       res.status(403).send("<h1>User doesnt exist, please sign up</h>");
     }
     // compare password with hash password value
     const hashss = bcrypt.compareSync(password, user.password);
-    // user redirected to urls page and has access to create new URL and their own URL library 
+    // user redirected to urls page and has access to create new URL and their own URL library
     if (hashss) {
-      req.session.user_id = user.id
+      req.session.user_id = user.id;
       res.redirect('/urls');
       // returns an error if email/password doesnt match
     } else {
@@ -192,10 +192,10 @@ app.post('/register', (req, res) => {
     return res.status(400).send("<h1>400 Bad Request</h1><p>Please fill up all fields.</p>");
   }
   // check if the user is not already in the database
-    if (getUserByEmail(email, users)) {
-      return res.status(400).send("<h1>400 Bad Request</h1><p>User is already registered. Please, make sure you are registering a new user.</p>");
-    }
-    // if user doesnt exists yet, it'ok to add the user to the database
+  if (getUserByEmail(email, users)) {
+    return res.status(400).send("<h1>400 Bad Request</h1><p>User is already registered. Please, make sure you are registering a new user.</p>");
+  }
+  // if user doesnt exists yet, it'ok to add the user to the database
   users[id] = {
     id,
     email,
