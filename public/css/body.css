@@ -110,13 +110,34 @@ height: 100%;
   color:cornflowerblue;
   box-sizing: content-box;
 }
+#login-card {
+  display: block;
+  justify-content: center;
+  align-items: center;
+  margin-left: 40%;
+  margin-right: 43%;
+  padding:8px;
+
+  background-color: rgb(71, 5, 5, 0.8);
+  box-shadow: 3px 6px 10px 3px rgba(0, 0, 0, 0.5); /* this adds the "card" effect */
+  border-radius: 1rem;
+  color:cornflowerblue;
+  box-sizing: content-box;
+}
 #register {
   padding-left: 18%;
   font-size: 34px;
   
 }
 
-.register-form-box {
+#register-form-box {
+  display: block;
+  justify-content: center;
+  align-items: center;
+  padding-left: 10%;
+  padding-bottom: 10px;
+}
+#login-form-box {
   display: block;
   justify-content: center;
   align-items: center;
