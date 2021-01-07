@@ -89,7 +89,8 @@ height: 100%;
 #trapezio {
   width:30%;
   height: 70%;
-  background-color: rgb(71, 5, 5, 0.8);
+  background-color: rgba(2, 13, 34, 0.86);
+  color:rgb(100, 237, 111);
   box-shadow: 3px 6px 10px 3px rgba(0, 0, 0, 0.5); /* this adds the "card" effect */
   padding-top: 4cm;
   padding-left: 1.5cm;
@@ -101,8 +102,8 @@ height: 100%;
   margin-top: 20%;
   margin-left: 25%;
   padding:20px;
-  background-color: rgba(2, 13, 34, 0.76);
-  box-shadow:3px 6px 10px 3px rgba(0, 0, 0, 0.5); 
+  background-color: rgba(2, 13, 34, 0.86);
+  box-shadow:3px 6px 10px 3px rgba(0, 0, 0, 0.8); 
   width: fit-content;
   height: fit-content;
   color:rgb(100, 237, 111);
@@ -112,10 +113,27 @@ height: 100%;
 
 #my-urls {
   margin-top: 6rem;
+  margin-left: 5%;
   padding-left: 45px;
-  background-color: rgb(71, 5, 5, 0.9);
-  width: 100%;
+  background-color: rgba(2, 13, 34, 0.86);
+  box-shadow:3px 6px 10px 3px rgba(0, 0, 0, 0.5);
+  width: 90%;
   height: fit-content;
+  border-radius: 3rem;
+  color:rgb(100, 237, 111);
+}
+
+#my-urls-edit {
+  margin-top: 6rem;
+  margin-left: 30%;
+  padding: 45px;
+  background-color: rgba(2, 13, 34, 0.86);
+  box-shadow:3px 6px 10px 3px rgba(0, 0, 0, 0.5);
+  width: fit-content;
+  height: fit-content;
+  border-radius: 3rem;
+  color:rgb(100, 237, 111);
+  font-size: 26px;
 }
 
 table {
@@ -160,10 +178,10 @@ td {
   margin-right: 43%;
   padding:8px;
 
-  background-color: rgb(71, 5, 5, 0.8);
+  background-color: rgba(2, 13, 34, 0.86);
   box-shadow: 3px 6px 10px 3px rgba(0, 0, 0, 0.5); /* this adds the "card" effect */
   border-radius: 1rem;
-  color:cornflowerblue;
+  color:rgb(100, 237, 111);
   box-sizing: content-box;
 }
 #login-card {
@@ -174,10 +192,10 @@ td {
   margin-right: 43%;
   padding:8px;
 
-  background-color: rgb(71, 5, 5, 0.8);
+  background-color: rgba(2, 13, 34, 0.86);
   box-shadow: 3px 6px 10px 3px rgba(0, 0, 0, 0.5); /* this adds the "card" effect */
   border-radius: 1rem;
-  color:cornflowerblue;
+  color:rgb(100, 237, 111);
   box-sizing: content-box;
 }
 #register {
@@ -207,11 +225,12 @@ td {
 }
 
 #register-btn {
-  background-color: rgb(151, 82, 82);
+  background-color: rgba(2, 13, 34, 0.86);
   box-shadow: 3px 6px 10px 3px rgba(0, 0, 0, 0.5); /* this adds the "card" effect */
-  color:cornflowerblue;
+  
   border-radius: 0.5rem;
   border-color: none;
   padding: 4px;
-  font-family: 'Quattrocento Sans', sans-serif;
+  color: aliceblue;
+  font-family: 'Play', sans-serif;
 }

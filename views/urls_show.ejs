@@ -1,14 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Bootstrap CSS -->
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+  <link rel="stylesheet" href="/static/css/body.css" type='text/css'/>
   <title>URL - TinyApp</title>
 </head>
 
-<body>
+<body id='body-all'>
   <%- include('partials/_header') %>
-  <div class="card text-center">
+  <div id='my-urls-edit'class="card text-center">
       <div class="card-header"></div>
       <div class="card-body">
         <h5 class="card-title">TinyURL for: <%= longURL %></h5>
@@ -18,10 +17,10 @@
         <h2>Edit</h2>
         <form class="form-inline justify-content-center" action="/urls/<%= shortURL %>" method="POST">
           <label for="longURL">new URL:
-          <input class="form-control" type="text" name="longURL" value= "<%= longURL %>"/>
+          <input id='input-form'class="form-control" type="text" name="longURL" value= "<%= longURL %>"/>
            
           </label>
-            <button type="submit" class="btn btn-outline-primary">Update URL</button>
+            <button id='logout-btn' type="submit" class="btn btn-outline-primary">Update URL</button>
       </form>
       </div>
   </div>
