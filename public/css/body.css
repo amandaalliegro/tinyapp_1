@@ -41,6 +41,7 @@ html {
   display: flex;
   align-content: flex-end;
   padding-left: 25px;
+  padding-top: 8px;
 }
 
 .nav-links-item {
@@ -50,6 +51,14 @@ html {
 a:any-link {
   color:cornflowerblue;
   text-decoration: none;
+}
+
+#logout-btn {
+  background-color: rgba(52, 53, 110, 0.8);
+  color: aliceblue;
+  font-family: 'Play', sans-serif;
+  border-radius: 0.5rem;
+  padding:5px
 }
 
 #body-all {
@@ -88,6 +97,41 @@ height: 100%;
   border-top-right-radius: 150rem;
   border-bottom-right-radius: 150rem;
 }
+
+#my-urls {
+  margin-top: 6rem;
+  padding-left: 45px;
+  background-color: rgb(71, 5, 5, 0.9);
+  width: 100%;
+  height: fit-content;
+}
+
+table {
+  width: 90%;
+  margin: auto;
+  text-align: justify;
+}
+
+th {
+  font-size: 26px;
+  text-transform: uppercase;
+  font-weight: 600;
+  padding: 1em;
+  
+}
+
+td {
+  font-size: 24px;
+  /* text-transform: uppercase; */
+  font-weight: 300;
+  padding: 1em;
+  color:cornflowerblue;
+}
+#navbar-nave {
+  display: flex;
+}
+
+
 
 #register-form {
   display: block;

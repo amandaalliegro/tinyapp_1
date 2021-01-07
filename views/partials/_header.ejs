@@ -3,7 +3,7 @@
     <a id="navbar-brand" href="/urls">TinyApp</a>
     
     <div class="collapse navbar-collapse" id="navbar-links">
-      <div class="navbar-nav">
+      <div id='navbar-nave'class="navbar-nav">
         <a class="nav-links-item" href="/urls">My URLs</a>
         <a class="nav-links-item" href="/urls/new">Create New URL</a>
         
@@ -12,10 +12,10 @@
           <a class="nav-links-item" href="/register">Register</a>
           
         <% } else { %>
-          <form class="form-inline ml-auto" action="/logout" method="POST">
+          <form id='form-logout' class="form-inline ml-auto" action="/logout" method="POST">
             <div class="form-group mb-2">
               <label for='user_id' style=" margin: 1em">Logged in as: <%= user.email %>!</label>
-              <button type="submit" class="btn btn-outline-dark">Logout</button>
+              <button id='logout-btn'type="submit" class="btn btn-outline-dark">Logout</button>
             </div>
           </form>
           <% } %>
