@@ -1,0 +1,93 @@
+@import url('https://fonts.googleapis.com/css2?family=Play&display=swap');
+
+
+html {
+  box-sizing: border-box;
+  height: 100%;
+  font-family: 'Play', sans-serif;
+}
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+#navbar-1 {
+  display: flex;
+  background-color: rgba(52, 53, 110, 0.4);
+  overflow: hidden;
+  top:0;
+  position: absolute;
+  width: 100%;
+  font-family: 'Quattrocento Sans', sans-serif;
+  padding: 5px;
+  margin-left: -4;
+  color: aliceblue;
+}
+
+#navbar {
+  display: flex;
+  font-family: 'Play', sans-serif;
+  justify-content: space-between;
+  padding: 15px;
+}
+#navbar-brand{
+  font-size: 24px;
+  font-weight: bolder;
+  padding-right: 10px;
+}
+
+#navbar-links {
+  display: flex;
+  align-content: flex-end;
+  padding-left: 25px;
+}
+
+.nav-links-item {
+  padding-right: 15px;
+}
+
+a:any-link {
+  color:cornflowerblue;
+  text-decoration: none;
+}
+
+
+
+#body-all {
+width: 100%;
+background-color: rgb(255, 255, 255);
+margin: 0px;
+height: 100%;
+background-image: url('../assets/home-tiny.jpeg');
+}
+#body-content {
+  font-size: 20px;
+  color:lawngreen;
+}
+#content {
+display:flex; 
+color: rgb(151, 82, 82);
+font-size: 24px;
+height: 100%;
+
+}
+
+#box-home {
+  display:flex;
+  width: 100%;
+  
+}
+
+#trapezio {
+  width:30%;
+  height: 70%;
+  background-color: rgb(71, 5, 5, 0.8);
+  box-shadow: 3px 6px 10px 3px rgba(0, 0, 0, 0.5); /* this adds the "card" effect */
+  padding-top: 4cm;
+  padding-left: 1.5cm;
+  padding-right: 1cm;
+  border-top-right-radius: 150rem;
+  border-bottom-right-radius: 150rem;
+}
+

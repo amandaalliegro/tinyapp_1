@@ -18,6 +18,7 @@ app.use(cookieSession({
   keys: ['abacaxi', 'melancia'],
 }));
 
+app.use("/static", express.static("public"));
 // access to helper functions
 const { getUserByEmail, generateRandomString, urlsForUser } = require('./helpers');
 
