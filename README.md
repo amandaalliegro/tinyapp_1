@@ -10,9 +10,9 @@ Re-styled login page:
 Re-styled create new url page:
 !['create-urls'](https://github.com/amandaalliegro/tinyapp_1/blob/master/docs/new-create.png?raw=true)
 Re-styled edit page:
-!['edit'](https://github.com/amandaalliegro/tinyapp_1/blob/master/docs/new-edit.png?raw=true)
+!['edit'](https://github.com/amandaalliegro/tinyapp_1/blob/master/docs/new-edit1.png?raw=true)
 Re-styled my urls:
-!['my urls'](https://github.com/amandaalliegro/tinyapp_1/blob/master/docs/new-edit.png?raw=true)
+!['my urls'](https://github.com/amandaalliegro/tinyapp_1/blob/master/docs/new-myurls.png?raw=true)
 
 Below you will find the very first design of this project:
 !["My URLs"](https://github.com/amandaalliegro/tinyapp_1/blob/master/docs/myURLs.png?raw=true)
