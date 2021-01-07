@@ -4,14 +4,14 @@
     
     <div class="collapse navbar-collapse" id="navbar-links">
       <div id='navbar-nave'class="navbar-nav">
-        <a class="nav-links-item" href="/urls">My URLs</a>
-        <a class="nav-links-item" href="/urls/new">Create New URL</a>
-        
         <% if (!user) { %>
-          <a class="nav-links-item" href="/login">Login</a> 
-          <a class="nav-links-item" href="/register">Register</a>
+        
+        <a class="nav-links-item" href="/login">Login</a> 
+        <a class="nav-links-item" href="/register">Register</a>
           
         <% } else { %>
+        <a class="nav-links-item" href="/urls">My URLs</a>
+        <a class="nav-links-item" href="/urls/new">Create New URL</a>
           <form id='form-logout' class="form-inline ml-auto" action="/logout" method="POST">
             <div class="form-group mb-2">
               <label for='user_id' style=" margin: 1em">Logged in as: <%= user.email %>!</label>

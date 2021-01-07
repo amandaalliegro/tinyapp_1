@@ -88,7 +88,7 @@ height: 100%;
 
 #trapezio {
   width:30%;
-  height: 70%;
+  height: 50%;
   background-color: rgba(2, 13, 34, 0.86);
   color:rgb(100, 237, 111);
   box-shadow: 3px 6px 10px 3px rgba(0, 0, 0, 0.5); /* this adds the "card" effect */
