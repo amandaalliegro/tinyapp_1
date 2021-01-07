@@ -52,8 +52,6 @@ a:any-link {
   text-decoration: none;
 }
 
-
-
 #body-all {
 width: 100%;
 background-color: rgb(255, 255, 255);
@@ -91,3 +89,51 @@ height: 100%;
   border-bottom-right-radius: 150rem;
 }
 
+#register-form {
+  display: block;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  padding-top:15%;
+}
+#register-card {
+  display: block;
+  justify-content: center;
+  align-items: center;
+  margin-left: 40%;
+  margin-right: 43%;
+  padding:8px;
+
+  background-color: rgb(71, 5, 5, 0.8);
+  box-shadow: 3px 6px 10px 3px rgba(0, 0, 0, 0.5); /* this adds the "card" effect */
+  border-radius: 1rem;
+  color:cornflowerblue;
+  box-sizing: content-box;
+}
+#register {
+  padding-left: 18%;
+  font-size: 34px;
+  
+}
+
+.register-form-box {
+  display: block;
+  justify-content: center;
+  align-items: center;
+  padding-left: 10%;
+  padding-bottom: 10px;
+}
+#input-form {
+  padding: 1px;
+  margin: 9px;
+}
+
+#register-btn {
+  background-color: rgb(151, 82, 82);
+  box-shadow: 3px 6px 10px 3px rgba(0, 0, 0, 0.5); /* this adds the "card" effect */
+  color:cornflowerblue;
+  border-radius: 0.5rem;
+  border-color: none;
+  padding: 4px;
+  font-family: 'Quattrocento Sans', sans-serif;
+}

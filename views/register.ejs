@@ -13,27 +13,28 @@
   <body id='body-all'>
     <%- include('partials/_header') %>
     <main style="margin: 1em;">
-      <div id='box-home'class="card text-center justify-content-center align-items-center">
-        <div class="card-body">
-          <form method="POST" action="/register" class="justify-content-center">
+      <div id='register-form'class="card text-center justify-content-center align-items-center">
+        <div id='register-card'class="card-body">
+          <h1 id='register'>Register!</h1>
+          <form id='register-form-box' method="POST" action="/register" class="register-form-box">
 
             <div class="input-group mb-3">
               <div class="input-group-prepend">
-                <span class="input-group-text" id="basic-addon1">email</span>
+                <span class="input-group-text" id="basic-addon1">email:</span>
               </div>
-              <input type="email" name="email" class="form-control" placeholder="example@server.com" aria-label="email"
+              <input id='input-form' type="email" name="email" class="form-control" placeholder="example@server.com" aria-label="email"
                 aria-describedby="basic-addon1">
             </div>
 
             <div class="input-group mb-3">
               <div class="input-group-prepend">
-                <span class="input-group-text" id="basic-addon1">password</span>
+                <span class="input-group-text" id="basic-addon1">password:</span>
               </div>
-              <input type="password" name="password" class="form-control" placeholder="********" aria-label="password"
+              <input id='input-form' type="password" name="password" class="form-control" placeholder="********" aria-label="password"
                 aria-describedby="basic-addon1">
             </div>
 
-            <button type="submit" class="btn btn-outline-dark">New user</button>
+            <button id='register-btn'type="submit" class="btn btn-outline-dark">New user</button>
           </form>
         </div>
         <div class="card-footer text-muted"></div>
