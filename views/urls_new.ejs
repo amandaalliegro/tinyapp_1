@@ -5,27 +5,27 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
-      integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <link rel="stylesheet" href="/static/css/body.css" type='text/css'/>
 
     <title>New URL - TinyApp</title>
   </head>
 
-  <body>
+  <body id='body-all'>
 
     <%- include('partials/_header') %>
 
     <main style="margin: 1em;">
+      <div id='new-urls'>
       <h3>Create TinyURL</h3>
       <form class="form-inline" action="/urls" method="POST">
         <div class="form-group mb-2">
           <label for="longURL">Enter a URL:</label>
-          <input class="form-control" type="text" name="longURL" placeholder="http://www.example.com"
+          <input id='input-form' class="form-control" type="text" name="longURL" placeholder="http://www.example.com"
             style="width: 300px; margin: 1em">
-          <button type="submit" class="btn btn-primary">Submit</button>
+          <button id='logout-btn'type="submit" class="btn btn-primary">Submit</button>
         </div>
       </form>
+    </div>
     </main>
     <!-- Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"

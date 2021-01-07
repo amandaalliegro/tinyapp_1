@@ -97,6 +97,18 @@ height: 100%;
   border-top-right-radius: 150rem;
   border-bottom-right-radius: 150rem;
 }
+#new-urls {
+  margin-top: 20%;
+  margin-left: 25%;
+  padding:20px;
+  background-color: rgba(2, 13, 34, 0.76);
+  box-shadow:3px 6px 10px 3px rgba(0, 0, 0, 0.5); 
+  width: fit-content;
+  height: fit-content;
+  color:rgb(100, 237, 111);
+  font-size: 40px;
+  border-radius: 3rem;
+}
 
 #my-urls {
   margin-top: 6rem;
@@ -189,8 +201,9 @@ td {
   padding-bottom: 10px;
 }
 #input-form {
-  padding: 1px;
+  padding: 2px;
   margin: 9px;
+  border-radius: 0.5rem;
 }
 
 #register-btn {
